@@ -1,48 +1,25 @@
+import { Layer, Stage, Line } from 'react-konva';
+import { map, flatten } from 'lodash';
+import { withContentRect } from 'react-measure';
 import React from 'react';
 
-import { withContentRect } from 'react-measure';
-
-import { Layer, Stage, Line } from 'react-konva';
-
-import { map, flatten } from 'lodash';
-
-
-const unit = 100;
-const sqrt3 = Math.sqrt(3);
+import collision from '../../../api/collision';
+import shapes from '../../../configs/shapes';
 
 
 const BaseShape = props => (
   <Line
     draggable
-    fill="red"
     closed
     {...props}
   />
 );
 
 
-const paths = {
-  ta: [[0, 0], [unit, 0], [unit / 2, (unit * sqrt3) / 2]],
-  tb: [[0, 0], [unit, 0], [unit, (unit * sqrt3)]],
-  tc: [[0, 0], [2 * unit, 0], [unit, (unit * sqrt3)]],
-  d: [[0, (unit * sqrt3) / 2], [unit / 2, 0], [unit, (unit * sqrt3) / 2], [unit / 2, (unit * sqrt3)]],
-  r: [[0, 0], [unit, 0], [2 * unit, unit * sqrt3], [unit, unit * sqrt3]],
-};
-
-const shapes = {
-  ta1: paths.ta,
-  ta2: paths.ta,
-  tb1: paths.tb,
-  tb2: paths.tb,
-  tc: paths.tc,
-  d: paths.d,
-  r: paths.r,
-};
-
-
 const AvatarStage = withContentRect('bounds')(
   ({
-    avatar: { _id: avatarId, ...avatar },
+    avatarId,
+    avatar,
     setShapePosition,
     setShapeRotation,
     measureRef,
@@ -53,25 +30,34 @@ const AvatarStage = withContentRect('bounds')(
         <Layer >
           {
               map(
-                avatar,
-                (props, key) => {
-                  const points = flatten(shapes[key]);
+                avatar.shapes,
+                (props, shapeId) => {
+                  const points = flatten(shapes[shapeId]);
+                  const color = shapeId === 'ta1' ? 'red' : '#333';
+
                   return (
                     <BaseShape
-                      key={key}
+                      key={shapeId}
                       {...props}
+                      fill={color}
                       points={points}
                       onClick={({ target: { attrs: { rotation } } }) => setShapeRotation({
                         avatarId,
-                        shapeId: key,
+                        shapeId,
                         rotation: rotation + 30,
                       })}
-                      onDragMove={({ target: { attrs: { x, y } } }) => setShapePosition({
-                        avatarId,
-                        shapeId: key,
-                        x,
-                        y,
-                      })}
+                      dragBoundFunc={(newPosition) => {
+                        const { position } = collision({ shapeId, avatarId, newPosition });
+                        return position;
+                      }}
+                      onDragMove={
+                        ({ target: { attrs: { x, y } } }) => setShapePosition({
+                          avatarId,
+                          shapeId,
+                          x,
+                          y,
+                        })
+                      }
                     />
                   );
                 }

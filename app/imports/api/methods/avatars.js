@@ -1,8 +1,9 @@
+import SimpleSchema from 'simpl-schema';
 
 import { Avatars } from '/imports/api/collections';
+
 import BaseMethod from './lib/base_method';
-import SimpleSchema from 'simpl-schema';
-import { Meteor } from 'meteor/meteor';
+import collision from '../collision';
 
 export default {
   setShapePosition: new BaseMethod({
@@ -15,9 +16,10 @@ export default {
       y: Number,
     }),
     run({ avatarId, shapeId, x, y }) {
+      const { position } = collision({ avatarId, shapeId, newPosition: { x, y } });
       Avatars.update(avatarId, {
         $set: {
-          [`${shapeId}.position`]: { x, y },
+          [`shapes.${shapeId}.position`]: position,
         },
       });
     },
@@ -31,9 +33,10 @@ export default {
       rotation: Number,
     }),
     run({ avatarId, shapeId, rotation }) {
+      const { rotation: newRotation } = collision({ avatarId, shapeId, newRotation: rotation });
       Avatars.update(avatarId, {
         $set: {
-          [`${shapeId}.rotation`]: rotation,
+          [`shapes.${shapeId}.rotation`]: newRotation,
         },
       });
     },

@@ -17,8 +17,7 @@ const defaultValue = {
   rotation: 0,
 };
 
-
-export default new SimpleSchema({
+const Shapes = new SimpleSchema({
   ta1: {
     type: Shape,
     defaultValue,
@@ -48,4 +47,8 @@ export default new SimpleSchema({
     defaultValue,
   },
 
+});
+
+export default new SimpleSchema({
+  shapes: Shapes,
 });
