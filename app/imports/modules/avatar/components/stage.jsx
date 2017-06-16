@@ -46,10 +46,7 @@ const AvatarStage = withContentRect('bounds')(
                         shapeId,
                         rotation: rotation + 30,
                       })}
-                      dragBoundFunc={(newPosition) => {
-                        const { position } = collision({ shapeId, avatarId, newPosition });
-                        return position;
-                      }}
+
                       onDragMove={
                         ({ target: { attrs: { x, y } } }) => setShapePosition({
                           avatarId,

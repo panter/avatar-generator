@@ -26,22 +26,10 @@ export default ({ avatarId, shapeId, newPosition = null, newRotation = null }) =
     ({ position: p, rotation: r }, key) => getPolygon({ shapeId: key, position: p, rotation: r })
   );
 
-  const collisions = map(polygons, ((otherP) => {
+  const collisions = map(polygons, ((otherP, otherShapeId) => {
     const response = new Response();
     const collides = testPolygonPolygon(thisPolygon, otherP, response);
-    return { collides, response };
+    return { collides, response, shapeId: otherShapeId };
   })).filter(c => c.collides);
-
-  if (collisions.length > 0) {
-    // const { overlapV } = response;
-    console.log(collisions);
-    const colPosition = new Vector(position.x, position.y);
-    forEach(collisions, c => colPosition.sub(c.response.overlapV));
-    console.log(colPosition);
-    return {
-      position: colPosition, // new Vector(position.x, position.y).sub(overlapV),
-      rotation: oldRotation,
-    };
-  }
-  return { position, rotation };
+  return collisions;
 };
