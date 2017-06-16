@@ -2,65 +2,41 @@ import React from 'react';
 
 import { withContentRect } from 'react-measure';
 
-import { Layer, Stage, Path } from 'react-konva';
+import { Layer, Stage, Line } from 'react-konva';
 
-import { map } from 'lodash';
+import { map, flatten } from 'lodash';
+
+
+const unit = 100;
+const sqrt3 = Math.sqrt(3);
+
 
 const BaseShape = props => (
-  <Path
-    fill="red"
+  <Line
     draggable
+    fill="red"
+    closed
     {...props}
   />
 );
 
 
-const TriangleA = props => (
-  <BaseShape
-    {...props}
-    data="M.89 0l100 173.21H.89z"
-  />
-);
-
-
-const TriangleB = props => (
-  <BaseShape
-    {...props}
-    data="M51 0l50 86.605H1z"
-  />
-);
-
-const TriangleC = props => (
-  <BaseShape
-    {...props}
-    data="M101 173.21H1L101 0l100 173.21H101"
-  />
-);
-
-
-const Diamond = props => (
-  <BaseShape
-    {...props}
-    data="M1 86.605L51 0l50 86.605-50 86.605z"
-  />
-);
-
-const Rhomboid = props => (
-  <BaseShape
-    {...props}
-    data="M1 173.605L51 87 1 173.605zm150.00105-86.99028L51 260.21002 1 173.605m.2573-.22572L101 0l50 86.605"
-  />
-);
+const paths = {
+  ta: [[0, 0], [unit, 0], [unit / 2, (unit * sqrt3) / 2]],
+  tb: [[0, 0], [unit, 0], [unit, (unit * sqrt3)]],
+  tc: [[0, 0], [2 * unit, 0], [unit, (unit * sqrt3)]],
+  d: [[0, (unit * sqrt3) / 2], [unit / 2, 0], [unit, (unit * sqrt3) / 2], [unit / 2, (unit * sqrt3)]],
+  r: [[0, 0], [unit, 0], [2 * unit, unit * sqrt3], [unit, unit * sqrt3]],
+};
 
 const shapes = {
-  ta1: TriangleA,
-  ta2: TriangleA,
-  tb1: TriangleB,
-  tb2: TriangleB,
-  tc: TriangleC,
-  d: Diamond,
-  r: Rhomboid,
-
+  ta1: paths.ta,
+  ta2: paths.ta,
+  tb1: paths.tb,
+  tb2: paths.tb,
+  tc: paths.tc,
+  d: paths.d,
+  r: paths.r,
 };
 
 
@@ -79,11 +55,12 @@ const AvatarStage = withContentRect('bounds')(
               map(
                 avatar,
                 (props, key) => {
-                  const Shape = shapes[key];
+                  const points = flatten(shapes[key]);
                   return (
-                    <Shape
+                    <BaseShape
                       key={key}
                       {...props}
+                      points={points}
                       onClick={({ target: { attrs: { rotation } } }) => setShapeRotation({
                         avatarId,
                         shapeId: key,
