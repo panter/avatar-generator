@@ -12,7 +12,7 @@ const Shape = new SimpleSchema({
 
 const defaultValue = {
   position: {
-    x: 0, y: 0,
+    x: 300, y: 300,
   },
   rotation: 0,
 };

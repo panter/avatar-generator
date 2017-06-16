@@ -13,7 +13,7 @@ const getPolygon = ({ shapeId, position, rotation }) => {
   p.setAngle(rotation * (Math.PI / 180));
   return p;
 };
-export default ({ avatarId, shapeId, newPosition = null, newRotation = null }) => {
+export default ({ avatarId, shapeId, blackList = [], newPosition = null, newRotation = null }) => {
   // check overlap
   const avatar = Avatars.findOne(avatarId);
   const { position: oldPosition, rotation: oldRotation } = avatar.shapes[shapeId];
@@ -22,7 +22,7 @@ export default ({ avatarId, shapeId, newPosition = null, newRotation = null }) =
   const thisPolygon = getPolygon({ shapeId, position, rotation });
 
   const polygons = mapValues(
-    omit(avatar.shapes, shapeId),
+    omit(avatar.shapes, [...blackList, shapeId]),
     ({ position: p, rotation: r }, key) => getPolygon({ shapeId: key, position: p, rotation: r })
   );
 

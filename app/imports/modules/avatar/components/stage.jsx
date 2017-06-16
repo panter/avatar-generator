@@ -11,6 +11,7 @@ const BaseShape = props => (
   <Line
     draggable
     closed
+    stroke="#000"
     {...props}
   />
 );
@@ -33,7 +34,7 @@ const AvatarStage = withContentRect('bounds')(
                 avatar.shapes,
                 (props, shapeId) => {
                   const points = flatten(shapes[shapeId]);
-                  const color = shapeId === 'ta1' ? 'red' : '#333';
+                  const color = shapeId === 'ta1' ? 'red' : '#999';
 
                   return (
                     <BaseShape
