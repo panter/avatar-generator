@@ -51,4 +51,8 @@ const Shapes = new SimpleSchema({
 
 export default new SimpleSchema({
   shapes: Shapes,
+  group: {
+    type: String,
+    defaultValue: 'atlas',
+  },
 });

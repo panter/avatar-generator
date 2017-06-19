@@ -6,5 +6,9 @@ export default {
     setShapeRotation({ Methods }, { avatarId, shapeId, rotation }) {
       Methods.Avatars.setShapeRotation.call({ avatarId, shapeId, rotation });
     },
+    selectGroup({ Methods }, { avatarId, group }) {
+      console.log({ avatarId, group });
+      Methods.Avatars.selectGroup.call({ avatarId, group });
+    },
   },
 };
