@@ -65,11 +65,14 @@ const AvatarStage = withContentRect('bounds')(
                       {...props}
                       fill={color}
                       points={points}
-                      onClick={({ target: { attrs: { rotation } } }) => setShapeRotation({
-                        avatarId,
-                        shapeId,
-                        rotation: rotation + 30,
-                      })}
+                      onClick={(event) => {
+                        const { evt: { shiftKey, altKey }, target: { attrs: { rotation } } } = event;
+                        setShapeRotation({
+                          avatarId,
+                          shapeId,
+                          rotation: rotation + (shiftKey ? -30 : 30),
+                        });
+                      }}
 
                       onDragMove={
                         ({ target: { attrs: { x, y } } }) => setShapePosition({
