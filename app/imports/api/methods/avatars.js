@@ -3,40 +3,84 @@ import SimpleSchema from 'simpl-schema';
 import { Avatars } from '/imports/api/collections';
 
 import BaseMethod from './lib/base_method';
-import collision from '../collision';
+import collision, { getPolygon } from '../collision';
+import { minBy, flatten } from 'lodash';
 
-const checkCollisionAndMoveOthers = ({ avatarId, shapeId, newPosition = null, newRotation = null, blackList = [] }) => {
-  const avatar = Avatars.findOne(avatarId);
+const getDistance = (v1, v2) => (
+  v1.clone().sub(v2).len()
+);
+const getAbsolutePoints = ({ shapeId, position, rotation }) => {
+  const poly = getPolygon({ shapeId, position, rotation });
+  return poly.calcPoints.map(v => v.clone().add(poly.pos));
+};
+
+const getShortestDistance = (shapeA, shapeB) => {
+  // console.log(shapeA, shapeB);
+  const pointsA = getAbsolutePoints(shapeA);
+  const pointsB = getAbsolutePoints(shapeB);
+  const distances = pointsA.map(va => (
+    pointsB.map(vb => ({
+      va, vb, distance: getDistance(va, vb),
+    }))
+  ));
+  return minBy(flatten(distances), 'distance');
+};
+const checkCollisionAndMoveOthers = ({ avatar, shapeId, newPosition = null, newRotation = null, blackList = [] }) => {
   const shape = avatar.shapes[shapeId];
   if (newPosition !== null) {
-    Avatars.update(avatarId, {
+    // console.log('updating shape position', shapeId, newPosition);
+    avatar.shapes[shapeId].position = newPosition;
+
+    /* Avatars.update(avatarId, {
       $set: {
         [`shapes.${shapeId}.position`]: newPosition,
       },
     });
+    */
   }
   if (newRotation !== null) {
+    avatar.shapes[shapeId].rotation = newRotation;
+      /*
     Avatars.update(avatarId, {
       $set: {
         [`shapes.${shapeId}.rotation`]: newRotation,
       },
     });
+    */
   }
-  const collisions = collision({ avatarId, shapeId, newPosition, newRotation, blackList });
+
+  // check the other shapes
+  const collisions = collision({ avatar, shapeId, newPosition, newRotation, blackList });
   collisions.forEach((c) => {
+    // console.log(c);
+    const otherShape = avatar.shapes[c.shapeId];
+    const shortestDistance = getShortestDistance({ ...shape, shapeId }, { ...otherShape, shapeId: c.shapeId });
+    let offset;
+    let moved = false;
+    if (c.collides) {
+      moved = true;
+    }
+    if (shortestDistance.distance < 20) {
+      moved = true;
+      // console.log('snapping', c.shapeId);
+      offset = shortestDistance.va.sub(shortestDistance.vb);
+    } else {
+      offset = { x: 0, y: 0 };
+    }
     const movedPos = {
-      x: avatar.shapes[c.shapeId].position.x + c.response.overlapV.x,
-      y: avatar.shapes[c.shapeId].position.y + c.response.overlapV.y,
+      x: otherShape.position.x + (c.collides ? c.response.overlapV.x : 0) + offset.x,
+      y: otherShape.position.y + (c.collides ? c.response.overlapV.y : 0) + offset.y,
     };
     // todo checki movedPos is near the current shape corners
-  //  const corners = shape.points.map
-
-    checkCollisionAndMoveOthers({
-      avatarId,
-      shapeId: c.shapeId,
-      newPosition: movedPos,
-      blackList: [shapeId, ...blackList],
-    });
+    //  const corners = shape.points.map
+    if (moved) {
+      checkCollisionAndMoveOthers({
+        avatar,
+        shapeId: c.shapeId,
+        newPosition: movedPos,
+        blackList: [shapeId, ...blackList],
+      });
+    }
   });
 };
 export default {
@@ -50,7 +94,9 @@ export default {
       y: Number,
     }),
     run({ avatarId, shapeId, x, y }) {
-      checkCollisionAndMoveOthers({ avatarId, shapeId, newPosition: { x, y } });
+      const avatar = Avatars.findOne(avatarId);
+      checkCollisionAndMoveOthers({ avatar, shapeId, newPosition: { x, y } });
+      Avatars.update(avatarId, { $set: avatar });
     },
   }),
   setShapeRotation: new BaseMethod({
@@ -62,7 +108,9 @@ export default {
       rotation: Number,
     }),
     run({ avatarId, shapeId, rotation }) {
-      checkCollisionAndMoveOthers({ avatarId, shapeId, newRotation: rotation });
+      const avatar = Avatars.findOne(avatarId);
+      checkCollisionAndMoveOthers({ avatar, shapeId, newRotation: rotation });
+      Avatars.update(avatarId, { $set: avatar });
     },
   }),
   selectGroup: new BaseMethod({
