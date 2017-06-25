@@ -6,6 +6,7 @@ import BaseMethod from './lib/base_method';
 import collision, { getPolygon } from '../collision';
 import { minBy, flatten } from 'lodash';
 
+const DEFAULT_SNAP_DISTANCE = 20;
 const getDistance = (v1, v2) => (
   v1.clone().sub(v2).len()
 );
@@ -25,7 +26,15 @@ const getShortestDistance = (shapeA, shapeB) => {
   ));
   return minBy(flatten(distances), 'distance');
 };
-const checkCollisionAndMoveOthers = ({ avatar, shapeId, newPosition = null, newRotation = null, blackList = [] }) => {
+/* eslint no-param-reassign: 0*/
+const checkCollisionAndMoveOthers = ({
+  avatar,
+  shapeId,
+  newPosition = null,
+  newRotation = null,
+  blackList = [],
+  snapDistance = DEFAULT_SNAP_DISTANCE,
+}) => {
   const shape = avatar.shapes[shapeId];
   if (newPosition !== null) {
     // console.log('updating shape position', shapeId, newPosition);
@@ -60,7 +69,7 @@ const checkCollisionAndMoveOthers = ({ avatar, shapeId, newPosition = null, newR
     if (c.collides) {
       moved = true;
     }
-    if (shortestDistance.distance < 20) {
+    if (shortestDistance.distance <= snapDistance) {
       moved = true;
       // console.log('snapping', c.shapeId);
       offset = shortestDistance.va.sub(shortestDistance.vb);
@@ -92,10 +101,14 @@ export default {
       shapeId: String,
       x: Number,
       y: Number,
+      snapDistance: {
+        type: Number,
+        optional: true,
+      },
     }),
-    run({ avatarId, shapeId, x, y }) {
+    run({ avatarId, shapeId, x, y, snapDistance }) {
       const avatar = Avatars.findOne(avatarId);
-      checkCollisionAndMoveOthers({ avatar, shapeId, newPosition: { x, y } });
+      checkCollisionAndMoveOthers({ avatar, shapeId, newPosition: { x, y }, snapDistance });
       Avatars.update(avatarId, { $set: avatar });
     },
   }),
@@ -106,10 +119,14 @@ export default {
       avatarId: String,
       shapeId: String,
       rotation: Number,
+      snapDistance: {
+        type: Number,
+        optional: true,
+      },
     }),
-    run({ avatarId, shapeId, rotation }) {
+    run({ avatarId, shapeId, rotation, snapDistance }) {
       const avatar = Avatars.findOne(avatarId);
-      checkCollisionAndMoveOthers({ avatar, shapeId, newRotation: rotation });
+      checkCollisionAndMoveOthers({ avatar, shapeId, newRotation: rotation, snapDistance });
       Avatars.update(avatarId, { $set: avatar });
     },
   }),
