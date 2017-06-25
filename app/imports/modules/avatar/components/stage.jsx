@@ -21,9 +21,10 @@ const BaseShape = props => (
 const hoverFancyOpacity = css`
   opacity: 0.4;
   transition: opacity 0.3s;
+  transition-delay: 2s;
   &:hover {
     opacity: 1;
-    transition-delay: 2s;
+    transition-delay: 0s;
   }
 `;
 

@@ -26,7 +26,7 @@ module.exports = {
     env: {
       // TODO: Change to your app's url
       // If you are using ssl, it needs to start with https://
-      ROOT_URL: 'http://159.100.240.189',
+      ROOT_URL: 'http://avatar.macrozone.ch',
       MONGO_URL: 'mongodb://localhost/meteor',
     },
 
