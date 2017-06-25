@@ -14,6 +14,7 @@ export default function (injectDeps, { localeRoutes }) {
     name: 'home',
     action() {
       mount(MainLayoutCtx, {
+        showTitle: true,
         propsNotLoggedIn: {
           content: () => <Login />,
         },

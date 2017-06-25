@@ -24,4 +24,10 @@ export default () => {
       { userId },
     );
   });
+
+  Meteor.publish('avatars.list.all', function () {
+    return Avatars.find(
+      { },
+    );
+  });
 };

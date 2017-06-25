@@ -26,6 +26,13 @@ const ContentWrapper = styled.div`
   `}
 `;
 
+const Title = styled.h1`
+  font-size: 36px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+
 const Layout = ({
   loggedIn,
   loggingIn,
@@ -39,12 +46,14 @@ const Layout = ({
     ...propsLoginState,
   };
   const {
+    showTitle = null,
     content = () => null,
   } = props;
   return (
     <ThemeProvider theme={theme}>
       <LayoutBase>
         <ContentWrapper>
+          {showTitle && <Title>Lässige Avatar editor</Title>}
           {content()}
         </ContentWrapper>
         <AlertsStack />

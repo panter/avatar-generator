@@ -15,10 +15,10 @@ const C = ({ href, className, style, children, label, onClick, type, testId }) =
 const Button = styled(C)`
   padding: 10px;
   margin: 10px;
-  border-radius: 4px;
+  border-radius: 0px;
   background-color: white;
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   border-color: black;
   font-size: 18px;
   text-align: center;
