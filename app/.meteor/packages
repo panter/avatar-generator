@@ -20,7 +20,6 @@ static-html
 kadira:flow-router
 aldeed:collection2-core@2.0.0
 fourseven:scss
-accounts-password@1.3.6
 mdg:validated-method
 mdg:validation-error
 panter:meteor-griddle
@@ -29,3 +28,5 @@ didericis:permissions-mixin
 percolate:migrations
 xolvio:backdoor
 dynamic-import
+accounts-google
+service-configuration

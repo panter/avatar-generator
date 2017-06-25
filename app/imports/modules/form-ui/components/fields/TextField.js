@@ -14,7 +14,7 @@ const TextInput = styled.input`
     margin-top: 4px;
     margin-bottom: 4px;
 `;
-const Text = ({
+export const Text = ({
     disabled,
     id,
     inputRef,

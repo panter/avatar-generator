@@ -1,6 +1,13 @@
 yes: Ja
 no: Nein
 
+success:
+  title: Yeah 😻
+
+
+error:
+  title: Ooops... 🙀
+  message: Da ging was schief... 😿 {$error.message}
 
 forms:
   back: Back
@@ -9,9 +16,8 @@ account:
   login:
     submitlabel: Login
     success:
-      message: Willkommen.
-    error:
-      message: Login inkorrekt.
+      message: Willkommen {$user.services.google.name}
+
 
 registration:
   register:

@@ -50,9 +50,15 @@ const Shapes = new SimpleSchema({
 });
 
 export default new SimpleSchema({
+  userId: String,
   shapes: Shapes,
   group: {
     type: String,
     defaultValue: 'atlas',
+  },
+  name: {
+    type: String,
+    optional: true,
+    defaultValue: 'Unnamed avatar',
   },
 });

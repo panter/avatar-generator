@@ -7,17 +7,18 @@ export default function (injectDeps, { localeRoutes }) {
   const Home = lazyLoad(() => import('./components/home.jsx'));
   const RegisterForm = lazyLoad(() => import('../registration/containers/register_form'));
   const Login = lazyLoad(() => import('../account/containers/login'));
-  const Profile = lazyLoad(() => import('../account/containers/profile'));
   const AvatarStage = lazyLoad(() => import('../avatar/containers/stage'));
+  const AvatarSVG = lazyLoad(() => import('../avatar/containers/avatar_svg'));
   const MainLayoutCtx = injectDeps(MainLayout);
   localeRoutes.route('/', {
     name: 'home',
     action() {
       mount(MainLayoutCtx, {
-        content: () => <Home />,
-        propsLoggedIn: {
-          content: () => <Profile />,
+        propsNotLoggedIn: {
+          content: () => <Login />,
         },
+        content: () => <Home />,
+
       });
     },
   });
@@ -25,7 +26,21 @@ export default function (injectDeps, { localeRoutes }) {
     name: 'avatar',
     action({ avatarId }) {
       mount(MainLayoutCtx, {
+        propsNotLoggedIn: {
+          content: () => <Login />,
+        },
         content: () => <AvatarStage avatarId={avatarId} />,
+      });
+    },
+  });
+  localeRoutes.route('/avatar/:avatarId/svg', {
+    name: 'avatar.svg',
+    action({ avatarId }) {
+      mount(MainLayoutCtx, {
+        propsNotLoggedIn: {
+          content: () => <Login />,
+        },
+        content: () => <AvatarSVG avatarId={avatarId} />,
       });
     },
   });

@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import CreateButton from '../../avatar/containers/create_button';
+import LogoutButton from '../../account/containers/logout_button';
+import MyAvatarList from '../../avatar/containers/my_avatar_list';
+
 
 const HomeBase = styled.div`
   position: fixed;
@@ -22,7 +26,9 @@ const HomeTitle = styled.h1`
 const Home = () => (
   <HomeBase>
     <HomeTitle data-testId="home-title">Lässige Avatar editor</HomeTitle>
-
+    <LogoutButton />
+    <CreateButton />
+    <MyAvatarList />
   </HomeBase>
 );
 

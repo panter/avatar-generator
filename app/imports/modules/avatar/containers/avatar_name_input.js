@@ -1,6 +1,6 @@
 import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
 import { setComposerStub } from 'react-komposer';
-import Stage from '../components/stage.jsx';
+import AvatarNameInput from '../components/avatar_name_input.jsx';
 
 export const composer = ({ context, avatarId }, onData) => {
   const { Meteor, Collections: { Avatars } } = context();
@@ -13,18 +13,16 @@ export const composer = ({ context, avatarId }, onData) => {
 
 export const depsMapper = (context, actions) => ({
   context: () => context,
-  setShapePosition: actions.avatars.setShapePosition,
-  setShapeRotation: actions.avatars.setShapeRotation,
-  saveAsSVG: actions.avatars.saveAsSVG,
+  setAvatarName: actions.avatars.setAvatarName,
 });
 
-const StageContainer = composeAll(
+const AvatarNameInputContainer = composeAll(
   composeWithTracker(composer),
   useDeps(depsMapper)
-)(Stage);
+)(AvatarNameInput);
 
-setComposerStub(StageContainer, ({ }) => ({
+setComposerStub(AvatarNameInputContainer, ({ }) => ({
 
 }));
 
-export default StageContainer;
+export default AvatarNameInputContainer;

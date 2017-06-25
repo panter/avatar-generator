@@ -1,6 +1,6 @@
 import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
 import { setComposerStub } from 'react-komposer';
-import Stage from '../components/stage.jsx';
+import AvatarSvg from '../components/avatar_svg.jsx';
 
 export const composer = ({ context, avatarId }, onData) => {
   const { Meteor, Collections: { Avatars } } = context();
@@ -13,18 +13,15 @@ export const composer = ({ context, avatarId }, onData) => {
 
 export const depsMapper = (context, actions) => ({
   context: () => context,
-  setShapePosition: actions.avatars.setShapePosition,
-  setShapeRotation: actions.avatars.setShapeRotation,
-  saveAsSVG: actions.avatars.saveAsSVG,
 });
 
-const StageContainer = composeAll(
+const AvatarSvgContainer = composeAll(
   composeWithTracker(composer),
   useDeps(depsMapper)
-)(Stage);
+)(AvatarSvg);
 
-setComposerStub(StageContainer, ({ }) => ({
+setComposerStub(AvatarSvgContainer, ({ }) => ({
 
 }));
 
-export default StageContainer;
+export default AvatarSvgContainer;

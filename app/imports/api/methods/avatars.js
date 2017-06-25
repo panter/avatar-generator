@@ -2,6 +2,7 @@ import SimpleSchema from 'simpl-schema';
 
 import { Avatars } from '/imports/api/collections';
 
+import { PermissionsMixin } from 'meteor/didericis:permissions-mixin';
 import BaseMethod from './lib/base_method';
 import collision, { getPolygon } from '../collision';
 import { minBy, flatten } from 'lodash';
@@ -94,7 +95,7 @@ const checkCollisionAndMoveOthers = ({
 };
 export default {
   setShapePosition: new BaseMethod({
-    allow: true,
+    allow: PermissionsMixin.LoggedIn,
     name: 'avatar.setShapePosition',
     schema: new SimpleSchema({
       avatarId: String,
@@ -113,7 +114,7 @@ export default {
     },
   }),
   setShapeRotation: new BaseMethod({
-    allow: true,
+    allow: PermissionsMixin.LoggedIn,
     name: 'avatar.setShapeRotation',
     schema: new SimpleSchema({
       avatarId: String,
@@ -130,8 +131,19 @@ export default {
       Avatars.update(avatarId, { $set: avatar });
     },
   }),
+  setAvatarName: new BaseMethod({
+    allow: PermissionsMixin.LoggedIn,
+    name: 'avatar.setAvatarName',
+    schema: new SimpleSchema({
+      avatarId: String,
+      name: String,
+    }),
+    run({ avatarId, name }) {
+      Avatars.update(avatarId, { $set: { name } });
+    },
+  }),
   selectGroup: new BaseMethod({
-    allow: true,
+    allow: PermissionsMixin.LoggedIn,
     name: 'avatar.selectGroup',
     schema: new SimpleSchema({
       avatarId: String,
@@ -139,6 +151,13 @@ export default {
     }),
     run({ avatarId, group }) {
       Avatars.update(avatarId, { $set: { group } });
+    },
+  }),
+  create: new BaseMethod({
+    allow: PermissionsMixin.LoggedIn,
+    name: 'avatar.create',
+    run() {
+      return Avatars.insert({ userId: this.userId });
     },
   }),
 

@@ -4,7 +4,7 @@ const u_2 = unit / 2;
 const u_3 = unit / 3;
 const u_sqrt3 = unit * Math.sqrt(3);
 const u_sqrt3_2 = u_sqrt3 / 2;
-const u_sqrt3_4 = u_sqrt3 / 4;
+
 const u_sqrt3_3 = u_sqrt3 / 3;
 const u_sqrt3_6 = u_sqrt3 / 6;
 

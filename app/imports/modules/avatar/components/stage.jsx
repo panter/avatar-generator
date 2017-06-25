@@ -3,9 +3,12 @@ import { map, flatten } from 'lodash';
 import { withContentRect } from 'react-measure';
 import React from 'react';
 
+import AvatarNameInput from '../containers/avatar_name_input';
+import Button from '../../core/components/button';
 import GroupSelect from '../containers/group_select';
+import getShapeColor from '../../../configs/get_shape_color';
 import shapes from '../../../configs/shapes';
-
+import styled, { css } from 'styled-components';
 
 const BaseShape = props => (
   <Line
@@ -15,29 +18,41 @@ const BaseShape = props => (
   />
 );
 
-const colors = {
-  ta2: '#303034',
-  tb1: '#51575B',
-  tb2: '#303034',
-  tc: '#303034',
-  d: '#303034',
-  r: '#51575B',
-};
-
-const groupColors = {
-  manul: '#F05867',
-  gruppe2: '#FCB42F',
-  lokomotive: '#E8E631',
-  atlas: '#54BE8B',
-};
-
-const getColor = ({ shapeId, group }) => {
-  if (shapeId === 'ta1') {
-    return groupColors[group];
+const hoverFancyOpacity = css`
+  opacity: 0.4;
+  transition: opacity 0.3s;
+  &:hover {
+    opacity: 1;
+    transition-delay: 2s;
   }
-  return colors[shapeId];
-};
+`;
 
+const AvatarActions = styled.div`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  left: 10px;
+  z-index: 10;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-between;
+  ${hoverFancyOpacity}
+`;
+
+const ProTipps = styled.div.attrs(
+  { children: [
+    <p>Click: Rotate 30°</p>,
+    <p>Shift-click: Rotate -30°</p>,
+    <p>Alt-click: not yet implemented 😢, but should flip the piece</p>,
+  ],
+  })`
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  left: 10px;
+  ${hoverFancyOpacity}
+`;
 
 const AvatarStage = withContentRect('bounds')(
   ({
@@ -46,10 +61,16 @@ const AvatarStage = withContentRect('bounds')(
     setShapePosition,
     setShapeRotation,
     measureRef,
+    saveAsSVG,
     contentRect: { bounds },
   }) => (
     <div ref={measureRef} style={{ width: '100%', height: '100%' }}>
-      <GroupSelect avatarId={avatarId} group={avatar.group} />
+      <AvatarActions>
+        <GroupSelect avatarId={avatarId} group={avatar.group} />
+        <AvatarNameInput avatarId={avatarId} />
+        <Button onClick={() => saveAsSVG(avatar)}>SVG</Button>
+      </AvatarActions>
+      <ProTipps />
       <Stage width={bounds.width} height={bounds.height}>
         <Layer >
           {
@@ -57,7 +78,7 @@ const AvatarStage = withContentRect('bounds')(
                 avatar.shapes,
                 (props, shapeId) => {
                   const points = flatten(shapes[shapeId]);
-                  const color = getColor({ shapeId, group: avatar.group });
+                  const color = getShapeColor({ shapeId, group: avatar.group });
 
                   return (
                     <BaseShape
