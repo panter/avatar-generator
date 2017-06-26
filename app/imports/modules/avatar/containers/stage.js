@@ -15,6 +15,7 @@ export const depsMapper = (context, actions) => ({
   context: () => context,
   setShapePosition: actions.avatars.setShapePosition,
   setShapeRotation: actions.avatars.setShapeRotation,
+  setShapebackface: actions.avatars.setShapebackface,
   saveAsSVG: actions.avatars.saveAsSVG,
 });
 

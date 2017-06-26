@@ -8,6 +8,10 @@ const Position = new SimpleSchema({
 const Shape = new SimpleSchema({
   position: Position,
   rotation: Number,
+  backface: {
+    type: Boolean,
+    optional: true,
+  },
 });
 
 const defaultValue = {
@@ -15,6 +19,7 @@ const defaultValue = {
     x: 300, y: 300,
   },
   rotation: 0,
+  backface: false,
 };
 
 const Shapes = new SimpleSchema({

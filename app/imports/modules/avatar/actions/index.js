@@ -13,6 +13,9 @@ export default {
     setShapeRotation({ Methods }, { avatarId, shapeId, rotation }) {
       Methods.Avatars.setShapeRotation.call({ avatarId, shapeId, rotation });
     },
+    setShapebackface({ Methods }, { avatarId, shapeId, backface }) {
+      Methods.Avatars.setShapebackface.call({ avatarId, shapeId, backface });
+    },
     selectGroup({ Methods }, { avatarId, group }) {
       Methods.Avatars.selectGroup.call({ avatarId, group });
     },

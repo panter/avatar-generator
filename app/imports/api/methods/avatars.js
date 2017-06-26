@@ -11,8 +11,8 @@ const DEFAULT_SNAP_DISTANCE = 20;
 const getDistance = (v1, v2) => (
   v1.clone().sub(v2).len()
 );
-const getAbsolutePoints = ({ shapeId, position, rotation }) => {
-  const poly = getPolygon({ shapeId, position, rotation });
+const getAbsolutePoints = ({ shapeId, position, rotation, backface }) => {
+  const poly = getPolygon({ shapeId, position, rotation, backface });
   return poly.calcPoints.map(v => v.clone().add(poly.pos));
 };
 
@@ -33,6 +33,7 @@ const checkCollisionAndMoveOthers = ({
   shapeId,
   newPosition = null,
   newRotation = null,
+  newFace = null,
   blackList = [],
   snapDistance = DEFAULT_SNAP_DISTANCE,
 }) => {
@@ -40,27 +41,17 @@ const checkCollisionAndMoveOthers = ({
   if (newPosition !== null) {
     // console.log('updating shape position', shapeId, newPosition);
     avatar.shapes[shapeId].position = newPosition;
-
-    /* Avatars.update(avatarId, {
-      $set: {
-        [`shapes.${shapeId}.position`]: newPosition,
-      },
-    });
-    */
   }
   if (newRotation !== null) {
     avatar.shapes[shapeId].rotation = newRotation;
-      /*
-    Avatars.update(avatarId, {
-      $set: {
-        [`shapes.${shapeId}.rotation`]: newRotation,
-      },
-    });
-    */
+  }
+
+  if (newFace !== null) {
+    avatar.shapes[shapeId].backface = newFace;
   }
 
   // check the other shapes
-  const collisions = collision({ avatar, shapeId, newPosition, newRotation, blackList });
+  const collisions = collision({ avatar, shapeId, newPosition, newRotation, newFace, blackList });
   collisions.forEach((c) => {
     // console.log(c);
     const otherShape = avatar.shapes[c.shapeId];
@@ -128,6 +119,24 @@ export default {
     run({ avatarId, shapeId, rotation, snapDistance }) {
       const avatar = Avatars.findOne(avatarId);
       checkCollisionAndMoveOthers({ avatar, shapeId, newRotation: rotation, snapDistance });
+      Avatars.update(avatarId, { $set: avatar });
+    },
+  }),
+  setShapebackface: new BaseMethod({
+    allow: PermissionsMixin.LoggedIn,
+    name: 'avatar.setShapebackface',
+    schema: new SimpleSchema({
+      avatarId: String,
+      shapeId: String,
+      backface: Boolean,
+      snapDistance: {
+        type: Number,
+        optional: true,
+      },
+    }),
+    run({ avatarId, shapeId, backface, snapDistance }) {
+      const avatar = Avatars.findOne(avatarId);
+      checkCollisionAndMoveOthers({ avatar, shapeId, newFace: backface, snapDistance });
       Avatars.update(avatarId, { $set: avatar });
     },
   }),

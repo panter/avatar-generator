@@ -2,13 +2,13 @@ import { Layer, Stage, Line } from 'react-konva';
 import { map, flatten } from 'lodash';
 import { withContentRect } from 'react-measure';
 import React from 'react';
+import styled, { css } from 'styled-components';
 
+import getShape from '../../../configs/shapes';
 import AvatarNameInput from '../containers/avatar_name_input';
 import Button from '../../core/components/button';
 import GroupSelect from '../containers/group_select';
 import getShapeColor from '../../../configs/get_shape_color';
-import shapes from '../../../configs/shapes';
-import styled, { css } from 'styled-components';
 
 const BaseShape = props => (
   <Line
@@ -45,7 +45,7 @@ const ProTipps = styled.div.attrs(
   { children: [
     <p>Click: Rotate 30°</p>,
     <p>Shift-click: Rotate -30°</p>,
-    <p>Alt-click: not yet implemented 😢, but should flip the piece</p>,
+    <p>Alt-click: flip the piece</p>,
   ],
   })`
   position: absolute;
@@ -55,12 +55,14 @@ const ProTipps = styled.div.attrs(
   ${hoverFancyOpacity}
 `;
 
+
 const AvatarStage = withContentRect('bounds')(
   ({
     avatarId,
     avatar,
     setShapePosition,
     setShapeRotation,
+    setShapebackface,
     measureRef,
     saveAsSVG,
     contentRect: { bounds },
@@ -77,8 +79,8 @@ const AvatarStage = withContentRect('bounds')(
           {
               map(
                 avatar.shapes,
-                (props, shapeId) => {
-                  const points = flatten(shapes[shapeId]);
+                ({ backface, ...props }, shapeId) => {
+                  const points = flatten(getShape({ shapeId, backface }));
                   const color = getShapeColor({ shapeId, group: avatar.group });
 
                   return (
@@ -89,11 +91,19 @@ const AvatarStage = withContentRect('bounds')(
                       points={points}
                       onClick={(event) => {
                         const { evt: { shiftKey, altKey }, target: { attrs: { rotation } } } = event;
-                        setShapeRotation({
-                          avatarId,
-                          shapeId,
-                          rotation: rotation + (shiftKey ? -30 : 30),
-                        });
+                        if (altKey) {
+                          setShapebackface({
+                            avatarId,
+                            shapeId,
+                            backface: !backface,
+                          });
+                        } else {
+                          setShapeRotation({
+                            avatarId,
+                            shapeId,
+                            rotation: rotation + (shiftKey ? -30 : 30),
+                          });
+                        }
                       }}
 
                       onDragMove={

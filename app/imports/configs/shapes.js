@@ -21,7 +21,7 @@ const paths = {
   r: [[-unit, -u_sqrt3_2], [0, -u_sqrt3_2], [unit, u_sqrt3_2], [0, u_sqrt3_2]],
 };
 
-export default {
+const shapes = {
   ta1: paths.ta,
   ta2: paths.ta,
   tb1: paths.tb,
@@ -30,3 +30,8 @@ export default {
   d: paths.d,
   r: paths.r,
 };
+
+
+export default ({ shapeId, backface }) => (
+  backface ? shapes[shapeId].map(([x, y]) => [x, -y]) : shapes[shapeId]
+);
