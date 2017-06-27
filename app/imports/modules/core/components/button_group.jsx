@@ -1,17 +1,18 @@
 
 import { T } from '@panter/manul-i18n';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const ButtonGroup = styled.div`
-  margin-bottom: 20px;
+  margin-left: -5px;
+  margin-right: -5px;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  overflow: visible;
+  justify-content: ${p => p.children.length > 1 ? 'space-between' : 'center'};
+  flex-flow: row wrap;
   & > * {
-    /* for iphone < 6 */
-    @media (max-width: 374px) {
-      flex: 1 1 auto;
-    }
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
   }
 
 `;
@@ -22,6 +23,5 @@ ButtonGroup.propTypes = {
 ButtonGroup.defaultProps = {
 };
 
-ButtonGroup.displayName = 'ButtonGroup';
 
 export default ButtonGroup;

@@ -45,7 +45,7 @@ const ProTipps = styled.div.attrs(
   { children: [
     <p>Click: Rotate 30°</p>,
     <p>Shift-click: Rotate -30°</p>,
-    <p>Alt-click: flip the piece</p>,
+    <p>Alt-click (or meta-key for linux-users): flip the piece</p>,
   ],
   })`
   position: absolute;
@@ -65,12 +65,16 @@ const AvatarStage = withContentRect('bounds')(
     setShapebackface,
     measureRef,
     saveAsSVG,
+    copyAvatar,
+    deleteAvatar,
     contentRect: { bounds },
   }) => (
     <div ref={measureRef} style={{ width: '100%', height: '100%' }}>
       <AvatarActions>
         <GroupSelect avatarId={avatarId} group={avatar.group} />
         <AvatarNameInput avatarId={avatarId} />
+        <Button onClick={() => copyAvatar(avatar._id)}>Create copy</Button>
+        <Button onClick={() => deleteAvatar(avatar._id)}>Delete avatar</Button>
         <Button onClick={() => saveAsSVG(avatar)}>SVG</Button>
       </AvatarActions>
       <ProTipps />
@@ -90,8 +94,8 @@ const AvatarStage = withContentRect('bounds')(
                       fill={color}
                       points={points}
                       onClick={(event) => {
-                        const { evt: { shiftKey, altKey }, target: { attrs: { rotation } } } = event;
-                        if (altKey) {
+                        const { evt: { shiftKey, altKey, metaKey }, target: { attrs: { rotation } } } = event;
+                        if (altKey || metaKey) {
                           setShapebackface({
                             avatarId,
                             shapeId,

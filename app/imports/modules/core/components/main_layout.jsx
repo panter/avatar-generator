@@ -4,6 +4,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import AlertsStack from './alerts_stack';
 import mediaqueries from '../../../configs/mediaqueries';
 import theme from '../../../configs/theme';
+import Confirm from '../containers/confirm';
 
 const LayoutBase = styled.div`
   position: absolute;
@@ -57,6 +58,7 @@ const Layout = ({
           {content()}
         </ContentWrapper>
         <AlertsStack />
+        <Confirm />
       </LayoutBase>
     </ThemeProvider>
   );

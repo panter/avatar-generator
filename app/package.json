@@ -40,6 +40,7 @@
     "react-loadable": "^3.3.1",
     "react-measure": "^2.0.2",
     "react-mounter": "^1.2.0",
+    "react-overlays": "^0.7.0",
     "react-simple-di": "^1.2.0",
     "recompose": "^0.21.2",
     "sat": "^0.6.0",

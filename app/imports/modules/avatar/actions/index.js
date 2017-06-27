@@ -27,6 +27,21 @@ export default {
         manulRouter.go('avatar', { avatarId })
       ));
     },
+    copyAvatar({ Methods, manulRouter }, avatarId) {
+      Methods.Avatars.copyAvatar.call({ avatarId }, (error, newAvatarId) => (
+        manulRouter.go('avatar', { avatarId: newAvatarId })
+      ));
+    },
+    deleteAvatar({ Methods, manulRouter, Alerts }, avatarId) {
+      Alerts.confirm({
+        message: "really? this can't be undone 🙀",
+        onConfirm: () => {
+          Methods.Avatars.deleteAvatar.call({ avatarId }, error => (
+            manulRouter.go('home')
+          ));
+        },
+      });
+    },
     saveAsSVG({}, avatar) {
       /* global window*/
       const svgString = ReactDOMServer.renderToStaticMarkup(<AvatarSVG avatar={avatar} />);

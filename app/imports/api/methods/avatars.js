@@ -1,11 +1,11 @@
+import { PermissionsMixin } from 'meteor/didericis:permissions-mixin';
+import { minBy, flatten } from 'lodash';
 import SimpleSchema from 'simpl-schema';
 
 import { Avatars } from '/imports/api/collections';
-
-import { PermissionsMixin } from 'meteor/didericis:permissions-mixin';
+import AvatarsAcl from '/imports/api/acl/avatars';
 import BaseMethod from './lib/base_method';
 import collision, { getPolygon } from '../collision';
-import { minBy, flatten } from 'lodash';
 
 const DEFAULT_SNAP_DISTANCE = 20;
 const getDistance = (v1, v2) => (
@@ -27,6 +27,14 @@ const getShortestDistance = (shapeA, shapeB) => {
   ));
   return minBy(flatten(distances), 'distance');
 };
+
+const allowForMe = [{
+  roles: true,
+  group: true,
+  allow({ avatarId }) {
+    return AvatarsAcl.write(avatarId, this.userId);
+  },
+}];
 /* eslint no-param-reassign: 0*/
 const checkCollisionAndMoveOthers = ({
   avatar,
@@ -86,7 +94,7 @@ const checkCollisionAndMoveOthers = ({
 };
 export default {
   setShapePosition: new BaseMethod({
-    allow: PermissionsMixin.LoggedIn,
+    allow: allowForMe,
     name: 'avatar.setShapePosition',
     schema: new SimpleSchema({
       avatarId: String,
@@ -105,7 +113,7 @@ export default {
     },
   }),
   setShapeRotation: new BaseMethod({
-    allow: PermissionsMixin.LoggedIn,
+    allow: allowForMe,
     name: 'avatar.setShapeRotation',
     schema: new SimpleSchema({
       avatarId: String,
@@ -123,7 +131,7 @@ export default {
     },
   }),
   setShapebackface: new BaseMethod({
-    allow: PermissionsMixin.LoggedIn,
+    allow: allowForMe,
     name: 'avatar.setShapebackface',
     schema: new SimpleSchema({
       avatarId: String,
@@ -141,7 +149,7 @@ export default {
     },
   }),
   setAvatarName: new BaseMethod({
-    allow: PermissionsMixin.LoggedIn,
+    allow: allowForMe,
     name: 'avatar.setAvatarName',
     schema: new SimpleSchema({
       avatarId: String,
@@ -151,8 +159,34 @@ export default {
       Avatars.update(avatarId, { $set: { name } });
     },
   }),
-  selectGroup: new BaseMethod({
+  copyAvatar: new BaseMethod({
     allow: PermissionsMixin.LoggedIn,
+    name: 'avatar.copyAvatar',
+    schema: new SimpleSchema({
+      avatarId: String,
+    }),
+    run({ avatarId }) {
+      const { _id: __, name, ...from } = Avatars.findOne(avatarId);
+      return Avatars.insert({
+        ...from,
+        name: `${name} copy`,
+        userId: this.userId,
+
+      });
+    },
+  }),
+  deleteAvatar: new BaseMethod({
+    allow: allowForMe,
+    name: 'avatar.deleteAvatar',
+    schema: new SimpleSchema({
+      avatarId: String,
+    }),
+    run({ avatarId }) {
+      return Avatars.remove(avatarId);
+    },
+  }),
+  selectGroup: new BaseMethod({
+    allow: allowForMe,
     name: 'avatar.selectGroup',
     schema: new SimpleSchema({
       avatarId: String,
