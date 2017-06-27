@@ -4,7 +4,9 @@ no: Nein
 success:
   title: Yeah 😻
 
-
+confirm:
+  ok: Ok 👍
+  cancel: Cancel ❌
 error:
   title: Ooops... 🙀
   message: Da ging was schief... 😿 {$error.message}
