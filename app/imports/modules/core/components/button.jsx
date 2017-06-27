@@ -3,17 +3,25 @@ import { T } from '@panter/manul-i18n';
 import styled from 'styled-components';
 
 
-const C = ({ href, className, style, children, label, onClick, type, testId }) => {
+const C = ({ href, className, style, children, label, onClick, type, testId, external }) => {
   const Tag = href ? 'a' : 'button';
   return (
-    <Tag className={className} style={style} href={href} onClick={onClick} type={type} data-testId={testId}>
+    <Tag
+      target={external ? '_blank' : null}
+      className={className}
+      style={style}
+      href={href}
+      onClick={onClick}
+      type={type}
+      data-testId={testId}
+    >
       {children || label}
     </Tag>
   );
 };
 
 const Button = styled(C)`
-  padding: 10px;
+  padding: 8px 12px;
   margin: 10px;
   border-radius: 0px;
   background-color: white;

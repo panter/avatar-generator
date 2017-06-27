@@ -4,10 +4,11 @@ import { withContentRect } from 'react-measure';
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import getShape from '../../../configs/shapes';
 import AvatarNameInput from '../containers/avatar_name_input';
 import Button from '../../core/components/button';
 import GroupSelect from '../containers/group_select';
+import LinkButton from '../../core/containers/link_button';
+import getShape from '../../../configs/shapes';
 import getShapeColor from '../../../configs/get_shape_color';
 
 const BaseShape = props => (
@@ -75,7 +76,8 @@ const AvatarStage = withContentRect('bounds')(
         <AvatarNameInput avatarId={avatarId} />
         <Button onClick={() => copyAvatar(avatar._id)}>Create copy</Button>
         <Button onClick={() => deleteAvatar(avatar._id)}>Delete avatar</Button>
-        <Button onClick={() => saveAsSVG(avatar)}>SVG</Button>
+        <Button external href={`/avatar/${avatarId}.svg`}>SVG</Button>
+        <Button onClick={() => saveAsSVG(avatar)}>Download SVG</Button>
       </AvatarActions>
       <ProTipps />
       <Stage width={bounds.width} height={bounds.height}>
