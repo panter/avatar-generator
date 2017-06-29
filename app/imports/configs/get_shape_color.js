@@ -15,10 +15,11 @@ const groupColors = {
   atlas: '#54BE8B',
 };
 
+export const getGroupColor = group => groupColors[group];
 
 export default ({ shapeId, group }) => {
   if (shapeId === 'ta1') {
-    return groupColors[group];
+    return getGroupColor(group);
   }
   return colors[shapeId];
 };
