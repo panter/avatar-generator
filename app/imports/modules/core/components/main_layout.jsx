@@ -54,7 +54,11 @@ const Layout = ({
     <ThemeProvider theme={theme}>
       <LayoutBase>
         <ContentWrapper>
-          {showTitle && <Title>Lässige Avatar editor</Title>}
+          {showTitle && <div>
+            <Title>Panter's lässigä Avatar Editor ™</Title>
+            <p style={{ textAlign: 'center' }}>Powered by <img style={{ height: 40, verticalAlign: 'middle' }} src="https://images-na.ssl-images-amazon.com/images/I/41dvudsQOUL.jpg" /></p>
+          </div>
+          }
           {content()}
         </ContentWrapper>
         <AlertsStack />

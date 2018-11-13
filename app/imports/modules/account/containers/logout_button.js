@@ -4,8 +4,8 @@ import LogoutButton from '../components/logout_button.jsx';
 
 export const composer = ({ context }, onData) => {
   const { Meteor, Collections } = context();
-
-  onData(null, {});
+  const userId = Meteor.userId();
+  onData(null, { userId });
 };
 
 export const depsMapper = (context, actions) => ({

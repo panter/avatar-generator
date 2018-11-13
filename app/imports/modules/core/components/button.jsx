@@ -32,6 +32,7 @@ const Button = styled(C)`
   text-align: center;
   text-decoration: none;
   color: ${p => p.theme.primary};
+  cursor: pointer;
 `;
 
 

@@ -7,7 +7,8 @@ import LinkButton from '../../core/containers/link_button';
 import UsernameLabel from '../../account/containers/username_label';
 
 const AvatarListBase = styled.ul`
-  padding: 10px;
+  display: flex;
+  flex-flow: row wrap;
 `;
 
 const AvatarListSvg = styled(AvatarSvg)`
@@ -15,7 +16,7 @@ const AvatarListSvg = styled(AvatarSvg)`
   height: 100px;
 `;
 const AvatarListItem = styled.li`
-
+  flex: 1;
 `;
 
 const AvatarListItemLink = styled(LinkButton)`
@@ -35,7 +36,7 @@ const AvatarList = ({ avatars = [] }) => (
         >
           <AvatarListSvg avatarId={avatar._id} />
           {avatar.name || avatar._id}
-          <UsernameLabel userId={avatar.userId} />
+          <UsernameLabel group={avatar.group} userId={avatar.userId} />
         </AvatarListItemLink>
       </AvatarListItem>
     )}
