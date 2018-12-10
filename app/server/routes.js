@@ -1,4 +1,5 @@
 /* global WebApp*/
+/*
 import { Restivus } from 'meteor/nimble:restivus';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -41,3 +42,5 @@ Api.addRoute('avatar/:avatarId', {
 WebApp.connectHandlers.use('/avatar/export', (req, res, next) => {
   const avatarId = req.query.avatarId;
 });
+
+*/
