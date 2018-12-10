@@ -2,21 +2,12 @@ import React from 'react';
 import { T } from '@panter/manul-i18n';
 import styled from 'styled-components';
 
-
 const C = ({
-  href, className, style, children, label, onClick, type, testId, external,
+  href, className, style, children, label, onClick, type, external,
 }) => {
   const Tag = href ? 'a' : 'button';
   return (
-    <Tag
-      target={external ? '_blank' : null}
-      className={className}
-      style={style}
-      href={href}
-      onClick={onClick}
-      type={type}
-      data-testId={testId}
-    >
+    <Tag target={external ? '_blank' : null} className={className} style={style} href={href} onClick={onClick} type={type}>
       {children || label}
     </Tag>
   );
@@ -36,6 +27,5 @@ const Button = styled(C)`
   color: ${p => p.theme.primary};
   cursor: pointer;
 `;
-
 
 export default Button;

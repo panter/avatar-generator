@@ -1,12 +1,12 @@
 /* global WebApp */
-/*
+
 import { Restivus } from 'meteor/nimble:restivus';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
+import { basename, extname } from 'path';
 import { Avatars } from '../imports/api/collections';
 import AvatarSVG from '../imports/modules/avatar/components/avatar_svg';
-import { basename, extname } from 'path';
 
 const Api = new Restivus({
   apiPath: '',
@@ -38,9 +38,3 @@ Api.addRoute('avatar/:avatarId', {
     };
   },
 });
-
-WebApp.connectHandlers.use('/avatar/export', (req, res, next) => {
-  const avatarId = req.query.avatarId;
-});
-
-*/
