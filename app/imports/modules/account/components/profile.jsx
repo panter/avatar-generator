@@ -19,15 +19,25 @@ const Profile = ({ userProfile, isAdmin, logout }) => {
     <ProfileBase>
       <Center>
         <Heading>Profile</Heading>
-        <h1>Firstname: {firstname}</h1>
-        <h1>Lastname: {lastname}</h1>
-        <h1>Email: {userProfile.emails[0].address}</h1>
-        { isAdmin ?
-          <LinkButton routeName="admin.index">
+        <h1>
+Firstname:
+          {firstname}
+        </h1>
+        <h1>
+Lastname:
+          {lastname}
+        </h1>
+        <h1>
+Email:
+          {userProfile.emails[0].address}
+        </h1>
+        { isAdmin
+          ? (
+            <LinkButton routeName="admin.index">
            Admin
-          </LinkButton>
-          :
-          null
+            </LinkButton>
+          )
+          : null
         }
         <Button onClick={logout}>
           Logout

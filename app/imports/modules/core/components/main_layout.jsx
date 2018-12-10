@@ -34,7 +34,9 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const Layout = ({ loggedIn, loggingIn, propsLoggedIn = {}, propsNotLoggedIn = {}, ...propsDefault }) => {
+const Layout = ({
+  loggedIn, loggingIn, propsLoggedIn = {}, propsNotLoggedIn = {}, ...propsDefault
+}) => {
   const propsLoginState = loggedIn ? propsLoggedIn : propsNotLoggedIn;
   const props = {
     ...propsDefault,
@@ -49,7 +51,9 @@ const Layout = ({ loggedIn, loggingIn, propsLoggedIn = {}, propsNotLoggedIn = {}
             <div>
               <Title>Panter's lässigä Avatar Editor ™</Title>
               <p style={{ textAlign: 'center' }}>
-                Powered by <img role="presentation" style={{ height: 40, verticalAlign: 'middle' }} src="https://images-na.ssl-images-amazon.com/images/I/41dvudsQOUL.jpg" />
+                Powered by
+                {' '}
+                <img alt="Brioschi" style={{ height: 40, verticalAlign: 'middle' }} src="https://images-na.ssl-images-amazon.com/images/I/41dvudsQOUL.jpg" />
               </p>
             </div>
           )}

@@ -1,4 +1,4 @@
-/* global WebApp*/
+/* global WebApp */
 /*
 import { Restivus } from 'meteor/nimble:restivus';
 import React from 'react';

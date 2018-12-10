@@ -3,24 +3,16 @@ import connectField from 'uniforms/connectField';
 import filterDOMProps from 'uniforms/filterDOMProps';
 
 const ListDel = ({
-    disabled,
-    name,
-    parent,
-    ...props
+  disabled, name, parent, ...props
 }) => {
   const fieldIndex = +name.slice(1 + name.lastIndexOf('.'));
   const limitNotReached = !disabled && !(parent.minCount >= parent.value.length);
 
   return (
-    <span
-      {...filterDOMProps(props)}
-      onClick={() => limitNotReached && parent.onChange([]
-                .concat(parent.value.slice(0, fieldIndex))
-                .concat(parent.value.slice(1 + fieldIndex))
-            )}
-    >
-            -
-        </span>
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
+    <span {...filterDOMProps(props)} onClick={() => limitNotReached && parent.onChange([].concat(parent.value.slice(0, fieldIndex)).concat(parent.value.slice(1 + fieldIndex)))}>
+      -
+    </span>
   );
 };
 

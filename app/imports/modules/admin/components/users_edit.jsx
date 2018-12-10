@@ -7,27 +7,28 @@ const UsersEdit = ({
   upgradeToAdmin,
   revokeAdmin,
   isAdmin = false,
-  ...props }) => (
-    <div >
-      <Button
-        variant={'danger'}
-        black={!isAdmin}
-        onClick={() => {
-          if (isAdmin) {
-            revokeAdmin(props.params._id);
-          } else {
-            upgradeToAdmin(props.params._id);
-          }
+  ...props
+}) => (
+  <div>
+    <Button
+      variant="danger"
+      black={!isAdmin}
+      onClick={() => {
+        if (isAdmin) {
+          revokeAdmin(props.params._id);
+        } else {
+          upgradeToAdmin(props.params._id);
         }
+      }
         }
-      >
-        <T>
-          {isAdmin ? 'user.admin.actions.revokeAdmin' : 'user.admin.actions.upgradeToAdmin'}
-        </T>
-      </Button>
-      <Edit {...props} />
-    </div>
-  );
+    >
+      <T>
+        {isAdmin ? 'user.admin.actions.revokeAdmin' : 'user.admin.actions.upgradeToAdmin'}
+      </T>
+    </Button>
+    <Edit {...props} />
+  </div>
+);
 
 UsersEdit.propTypes = {
 };

@@ -11,38 +11,37 @@ const xor = (item, array) => {
   return array.slice(0, index).concat(array.slice(index + 1));
 };
 
-const renderCheckboxes = ({ allowedValues, disabled, fieldType, id, name, onChange, transform, value }) =>
-    allowedValues.map(item =>
-      <div key={item}>
-        <input
-          checked={fieldType === Array ? value.includes(item) : value === item}
-          disabled={disabled}
-          id={`${id}-${item}`}
-          name={name}
-          onChange={() => onChange(fieldType === Array ? xor(item, value) : item)}
-          type="checkbox"
-        />
+const renderCheckboxes = ({
+  allowedValues, disabled, fieldType, id, name, onChange, transform, value,
+}) => allowedValues.map(item => (
+  <div key={item}>
+    <input
+      checked={fieldType === Array ? value.includes(item) : value === item}
+      disabled={disabled}
+      id={`${id}-${item}`}
+      name={name}
+      onChange={() => onChange(fieldType === Array ? xor(item, value) : item)}
+      type="checkbox"
+    />
 
-        <label htmlFor={`${id}-${item}`}>
-          {transform ? transform(item) : item}
-        </label>
-      </div>
-    )
-;
-
+    <label htmlFor={`${id}-${item}`}>
+      {transform ? transform(item) : item}
+    </label>
+  </div>
+));
 const renderSelect = ({
-    allowedValues,
-    disabled,
-    id,
-    inputRef,
-    label,
-    name,
-    onChange,
-    placeholder,
-    required,
-    transform,
-    value,
-}) =>
+  allowedValues,
+  disabled,
+  id,
+  inputRef,
+  label,
+  name,
+  onChange,
+  placeholder,
+  required,
+  transform,
+  value,
+}) => (
   <select
     disabled={disabled}
     id={id}
@@ -55,47 +54,51 @@ const renderSelect = ({
     <option value="" disabled={required} hidden={required}>
       {placeholder || label}
     </option>
-        )}
+    )}
 
-    {allowedValues.map(allowedValue =>
+    {allowedValues.map(allowedValue => (
       <option key={allowedValue} value={allowedValue}>
         {transform ? transform(allowedValue) : allowedValue}
       </option>
-        )}
+    ))}
   </select>
-;
+);
 
 const Select = ({
-    allowedValues,
-    checkboxes,
-    disabled,
-    fieldType,
-    id,
-    inputRef,
-    label,
-    name,
-    onChange,
-    placeholder,
-    required,
-    transform,
-    value,
-    ...props
-}) =>
+  allowedValues,
+  checkboxes,
+  disabled,
+  fieldType,
+  id,
+  inputRef,
+  label,
+  name,
+  onChange,
+  placeholder,
+  required,
+  transform,
+  value,
+  ...props
+}) => (
   <div {...filterDOMProps(props)}>
     {label && (
     <label htmlFor={id}>
       {label}
     </label>
-        )}
+    )}
 
     {/* TODO: Better handling of these props. */}
     {/* eslint-disable max-len */}
     {checkboxes || fieldType === Array
-            ? renderCheckboxes({ allowedValues, disabled, id, name, onChange, transform, value, fieldType })
-            : renderSelect({ allowedValues, disabled, id, name, onChange, transform, value, inputRef, label, placeholder, required })
+      ? renderCheckboxes({
+        allowedValues, disabled, id, name, onChange, transform, value, fieldType,
+      })
+      : renderSelect({
+        allowedValues, disabled, id, name, onChange, transform, value, inputRef, label, placeholder, required,
+      })
         }
     {/* eslint-enable */}
   </div>
-;
+);
 
 export default connectField(Select);

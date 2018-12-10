@@ -3,15 +3,15 @@ import connectField from 'uniforms/connectField';
 import filterDOMProps from 'uniforms/filterDOMProps';
 
 const Bool = ({
-    disabled,
-    id,
-    inputRef,
-    label,
-    name,
-    onChange,
-    value,
-    ...props
-}) =>
+  disabled,
+  id,
+  inputRef,
+  label,
+  name,
+  onChange,
+  value,
+  ...props
+}) => (
   <div {...filterDOMProps(props)}>
     <input
       checked={value}
@@ -27,8 +27,8 @@ const Bool = ({
     <label htmlFor={id}>
       {label}
     </label>
-        )}
+    )}
   </div>
-;
+);
 
 export default connectField(Bool);

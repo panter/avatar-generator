@@ -13,10 +13,7 @@
     }
   },
   "parser": "babel-eslint",
-  "plugins": [
-    "meteor",
-    "react"
-  ],
+  "plugins": ["meteor", "react"],
   "extends": [
     "airbnb",
     "plugin:meteor/recommended",
@@ -30,10 +27,17 @@
   },
   "rules": {
     "arrow-body-style": [1, "as-needed"],
-    "no-unused-vars": ["warn", {
-      "argsIgnorePattern": "theme|context|injectDeps|actions",
-      "varsIgnorePattern": "Meteor|T|compose|useDeps|depsMapper|expect|spy|stub|shallow"
-    }],
+    "no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "theme|context|injectDeps|actions",
+        "varsIgnorePattern": "Meteor|T|compose|useDeps|depsMapper|expect|spy|stub|shallow"
+      }
+    ],
+    "jsx-a11y/accessible-emoji": 0,
+    "prefer-destructuring": 0,
+    "react/destructuring-assignment": 0,
+    "jsx-a11y/label-has-for": 0,
     "no-empty-pattern": 0,
     "no-unused-expressions": 0,
     "react/prop-types": 0,

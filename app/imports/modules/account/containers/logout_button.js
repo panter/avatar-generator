@@ -1,5 +1,7 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import LogoutButton from '../components/logout_button.jsx';
 
 export const composer = ({ context }, onData) => {
@@ -13,13 +15,6 @@ export const depsMapper = (context, actions) => ({
   logout: actions.account.logout,
 });
 
-const LogoutButtonContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(LogoutButton);
-
-setComposerStub(LogoutButtonContainer, ({ }) => ({
-
-}));
+const LogoutButtonContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(LogoutButton);
 
 export default LogoutButtonContainer;

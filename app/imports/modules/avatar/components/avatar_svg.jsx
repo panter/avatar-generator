@@ -22,9 +22,9 @@ const AvatarSvg = ({ className, style, avatar }) => (
         transform={`translate(${shape.position.x}, ${shape.position.y}) rotate(${shape.rotation})`}
         style={{ fill: getShapeColor({ shapeId, group: avatar.group }) }}
       />
-      ))}
+    ))}
 
   </AvatarSvgBase>
-  );
+);
 
 export default AvatarSvg;

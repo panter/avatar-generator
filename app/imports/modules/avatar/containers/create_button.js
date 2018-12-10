@@ -1,5 +1,7 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import CreateButton from '../components/create_button.jsx';
 
 export const composer = ({ context }, onData) => {
@@ -13,13 +15,6 @@ export const depsMapper = (context, actions) => ({
   create: actions.avatars.create,
 });
 
-const CreateButtonContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(CreateButton);
-
-setComposerStub(CreateButtonContainer, ({ }) => ({
-
-}));
+const CreateButtonContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(CreateButton);
 
 export default CreateButtonContainer;

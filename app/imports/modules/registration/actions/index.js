@@ -9,7 +9,7 @@ export default {
           } else {
             manulRouter.go('home');
           }
-        })
+        }),
       );
     },
   },

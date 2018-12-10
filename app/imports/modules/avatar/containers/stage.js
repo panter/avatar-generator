@@ -1,9 +1,14 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import Stage from '../components/stage.jsx';
 
 export const composer = ({ context, avatarId }, onData) => {
-  const { Meteor, Collections: { Avatars } } = context();
+  const {
+    Meteor,
+    Collections: { Avatars },
+  } = context();
   Meteor.subscribe('avatars.one.byId', avatarId);
   const avatar = Avatars.findOne(avatarId);
   if (avatar) {
@@ -21,13 +26,6 @@ export const depsMapper = (context, actions) => ({
   saveAsSVG: actions.avatars.saveAsSVG,
 });
 
-const StageContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(Stage);
-
-setComposerStub(StageContainer, ({ }) => ({
-
-}));
+const StageContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(Stage);
 
 export default StageContainer;

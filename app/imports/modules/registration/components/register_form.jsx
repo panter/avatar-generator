@@ -20,13 +20,13 @@ const RegisterForm = ({
       <AutoForm
         schema={registerSchema}
         onSubmit={register}
-        additionalActions={
+        additionalActions={(
           <LinkButton
             routeName="home"
           >
             <T>forms.back</T>
           </LinkButton>
-      }
+)}
         submitLabel={<T>registration.register.submitlabel</T>}
       />
     </Center>

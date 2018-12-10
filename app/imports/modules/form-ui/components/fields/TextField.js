@@ -15,23 +15,23 @@ const TextInput = styled.input`
     margin-bottom: 4px;
 `;
 export const Text = ({
-    disabled,
-    id,
-    inputRef,
-    label,
-    name,
-    onChange,
-    placeholder,
-    type,
-    value,
-    ...props
-}) =>
+  disabled,
+  id,
+  inputRef,
+  label,
+  name,
+  onChange,
+  placeholder,
+  type,
+  value,
+  ...props
+}) => (
   <div {...filterDOMProps(props)}>
     {label && (
     <label htmlFor={id}>
       {label}
     </label>
-        )}
+    )}
 
     <TextInput
       disabled={disabled}
@@ -44,7 +44,7 @@ export const Text = ({
       value={value}
     />
   </div>
-;
+);
 
 Text.defaultProps = {
   type: 'text',

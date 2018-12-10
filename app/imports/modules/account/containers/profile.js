@@ -1,5 +1,7 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import Profile from '../components/profile.jsx';
 import userProfileSchema from '/imports/api/schemas/user_profile';
 
@@ -16,13 +18,6 @@ export const depsMapper = (context, actions) => ({
   context: () => context,
 });
 
-const ProfileContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(Profile);
-
-setComposerStub(ProfileContainer, ({ }) => ({
-
-}));
+const ProfileContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(Profile);
 
 export default ProfileContainer;

@@ -11,10 +11,11 @@ import AdminCreate from '/imports/modules/admin/containers/create';
 import AdminEdit from '/imports/modules/admin/containers/edit';
 import UsersEdit from '/imports/modules/admin/containers/users_edit';
 
-
 import adminConfig from '/admin_config';
 
-export default ({ Alerts, gotoRoute, localeRoutes }) => {
+export default ({
+  Alerts, gotoRoute, localeRoutes, LocalState,
+}) => {
   const adminRoutes = localeRoutes.group({
     prefix: '/admin',
     name: 'admin',
@@ -25,6 +26,7 @@ export default ({ Alerts, gotoRoute, localeRoutes }) => {
     Meteor,
     ValidatedMethod,
     Counts,
+    LocalState,
 
     config: adminConfig,
     adminRoutes,

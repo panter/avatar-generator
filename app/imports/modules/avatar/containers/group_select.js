@@ -1,5 +1,7 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import GroupSelect from '../components/group_select.jsx';
 
 export const composer = ({ context }, onData) => {
@@ -13,13 +15,6 @@ export const depsMapper = (context, actions) => ({
   selectGroup: actions.avatars.selectGroup,
 });
 
-const GroupSelectContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(GroupSelect);
-
-setComposerStub(GroupSelectContainer, ({ }) => ({
-
-}));
+const GroupSelectContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(GroupSelect);
 
 export default GroupSelectContainer;

@@ -2,29 +2,14 @@ import React from 'react';
 import connectField from 'uniforms/connectField';
 import filterDOMProps from 'uniforms/filterDOMProps';
 
-const noneIfNaN = x => isNaN(x) ? undefined : x;
+// eslint-disable-next-line no-restricted-globals
+const noneIfNaN = x => (isNaN(x) ? undefined : x);
 
 const Num = ({
-    decimal,
-    disabled,
-    id,
-    inputRef,
-    label,
-    max,
-    min,
-    name,
-    onChange,
-    placeholder,
-    step,
-    value,
-    ...props
-}) =>
+  decimal, disabled, id, inputRef, label, max, min, name, onChange, placeholder, step, value, ...props
+}) => (
   <div {...filterDOMProps(props)}>
-    {label && (
-    <label htmlFor={id}>
-      {label}
-    </label>
-        )}
+    {label && <label htmlFor={id}>{label}</label>}
 
     <input
       disabled={disabled}
@@ -40,6 +25,6 @@ const Num = ({
       value={value}
     />
   </div>
-;
+);
 
 export default connectField(Num);

@@ -8,7 +8,7 @@ const store = new TranslationStore({
 });
 // on server, you always need to specify a locale
 // that's why we do not name it t, so that one does not confuse it
-/* eslint import/prefer-default-export: 0*/
+/* eslint import/prefer-default-export: 0 */
 export const translate = (locale, keyOrNamespace, params) => (
   store.translate(keyOrNamespace, { _locale: locale, ...params })
 );

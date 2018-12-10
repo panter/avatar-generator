@@ -11,24 +11,24 @@ const dateParse = (timestamp, onChange) => {
 };
 
 const Date_ = ({
-    disabled,
-    id,
-    inputRef,
-    label,
-    max,
-    min,
-    name,
-    onChange,
-    placeholder,
-    value,
-    ...props
-}) =>
+  disabled,
+  id,
+  inputRef,
+  label,
+  max,
+  min,
+  name,
+  onChange,
+  placeholder,
+  value,
+  ...props
+}) => (
   <div {...filterDOMProps(props)}>
     {label && (
     <label htmlFor={id}>
       {label}
     </label>
-        )}
+    )}
 
     <input
       disabled={disabled}
@@ -43,7 +43,7 @@ const Date_ = ({
       value={dateFormat(value)}
     />
   </div>
-;
+);
 
 Date_.displayName = 'Date';
 

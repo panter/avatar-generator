@@ -1,23 +1,17 @@
 import { Layer, Stage, Line } from 'react-konva';
 import { map, flatten } from 'lodash';
 import { withContentRect } from 'react-measure';
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled, { css } from 'styled-components';
 
 import AvatarNameInput from '../containers/avatar_name_input';
 import Button from '../../core/components/button';
 import GroupSelect from '../containers/group_select';
-import LinkButton from '../../core/containers/link_button';
+
 import getShape from '../../../configs/shapes';
 import getShapeColor from '../../../configs/get_shape_color';
 
-const BaseShape = props => (
-  <Line
-    draggable
-    closed
-    {...props}
-  />
-);
+const BaseShape = props => <Line draggable closed {...props} />;
 
 const hoverFancyOpacity = css`
   opacity: 0.4;
@@ -42,13 +36,18 @@ const AvatarActions = styled.div`
   ${hoverFancyOpacity}
 `;
 
-const ProTipps = styled.div.attrs(
-  { children: [
-    <p>Click: Rotate 30°</p>,
-    <p>Shift-click: Rotate -30°</p>,
-    <p>Alt-click (or meta-key for linux-users): flip the piece</p>,
-  ],
-  })`
+const ProTipps = styled.div.attrs({
+  children: (
+    <Fragment>
+      <p>Click: Rotate 30°</p>
+,
+      <p>Shift-click: Rotate -30°</p>
+,
+      <p>Alt-click (or meta-key for linux-users): flip the piece</p>
+,
+    </Fragment>
+  ),
+})`
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -56,79 +55,71 @@ const ProTipps = styled.div.attrs(
   ${hoverFancyOpacity}
 `;
 
+const AvatarStage = withContentRect('bounds')(({
+  avatarId, avatar, setShapePosition, setShapeRotation, setShapebackface, measureRef, saveAsSVG, copyAvatar, deleteAvatar, contentRect: { bounds },
+}) => (
+  <div ref={measureRef} style={{ width: '100%', height: '100%' }}>
+    <AvatarActions>
+      <GroupSelect avatarId={avatarId} group={avatar.group} />
+      <AvatarNameInput avatarId={avatarId} />
+      <Button onClick={() => copyAvatar(avatar._id)}>Create copy</Button>
+      <Button onClick={() => deleteAvatar(avatar._id)}>Delete avatar</Button>
+      <Button external href={`/avatar/${avatarId}.svg`}>
+        SVG
+      </Button>
+      <Button onClick={() => saveAsSVG(avatar)}>Download SVG</Button>
+    </AvatarActions>
+    <ProTipps />
+    <Stage width={bounds.width} height={bounds.height}>
+      <Layer>
+        {map(avatar.shapes, ({ backface, ...props }, shapeId) => {
+          const points = flatten(getShape({ shapeId, backface }));
+          const color = getShapeColor({ shapeId, group: avatar.group });
 
-const AvatarStage = withContentRect('bounds')(
-  ({
-    avatarId,
-    avatar,
-    setShapePosition,
-    setShapeRotation,
-    setShapebackface,
-    measureRef,
-    saveAsSVG,
-    copyAvatar,
-    deleteAvatar,
-    contentRect: { bounds },
-  }) => (
-    <div ref={measureRef} style={{ width: '100%', height: '100%' }}>
-      <AvatarActions>
-        <GroupSelect avatarId={avatarId} group={avatar.group} />
-        <AvatarNameInput avatarId={avatarId} />
-        <Button onClick={() => copyAvatar(avatar._id)}>Create copy</Button>
-        <Button onClick={() => deleteAvatar(avatar._id)}>Delete avatar</Button>
-        <Button external href={`/avatar/${avatarId}.svg`}>SVG</Button>
-        <Button onClick={() => saveAsSVG(avatar)}>Download SVG</Button>
-      </AvatarActions>
-      <ProTipps />
-      <Stage width={bounds.width} height={bounds.height}>
-        <Layer >
-          {
-              map(
-                avatar.shapes,
-                ({ backface, ...props }, shapeId) => {
-                  const points = flatten(getShape({ shapeId, backface }));
-                  const color = getShapeColor({ shapeId, group: avatar.group });
-
-                  return (
-                    <BaseShape
-                      key={shapeId}
-                      {...props}
-                      fill={color}
-                      points={points}
-                      onClick={(event) => {
-                        const { evt: { shiftKey, altKey, metaKey }, target: { attrs: { rotation } } } = event;
-                        if (altKey || metaKey) {
-                          setShapebackface({
-                            avatarId,
-                            shapeId,
-                            backface: !backface,
-                          });
-                        } else {
-                          setShapeRotation({
-                            avatarId,
-                            shapeId,
-                            rotation: rotation + (shiftKey ? -30 : 30),
-                          });
-                        }
-                      }}
-
-                      onDragMove={
-                        ({ target: { attrs: { x, y } } }) => setShapePosition({
-                          avatarId,
-                          shapeId,
-                          x,
-                          y,
-                        })
-                      }
-                    />
-                  );
+          return (
+            <BaseShape
+              key={shapeId}
+              {...props}
+              fill={color}
+              points={points}
+              onClick={(event) => {
+                const {
+                  evt: { shiftKey, altKey, metaKey },
+                  target: {
+                    attrs: { rotation },
+                  },
+                } = event;
+                if (altKey || metaKey) {
+                  setShapebackface({
+                    avatarId,
+                    shapeId,
+                    backface: !backface,
+                  });
+                } else {
+                  setShapeRotation({
+                    avatarId,
+                    shapeId,
+                    rotation: rotation + (shiftKey ? -30 : 30),
+                  });
                 }
-              )
-            }
-        </Layer>
-      </Stage>
-    </div>
-    )
-);
+              }}
+              onDragMove={({
+                target: {
+                  attrs: { x, y },
+                },
+              }) => setShapePosition({
+                avatarId,
+                shapeId,
+                x,
+                y,
+              })
+              }
+            />
+          );
+        })}
+      </Layer>
+    </Stage>
+  </div>
+));
 
 export default AvatarStage;

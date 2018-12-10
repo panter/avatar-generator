@@ -1,4 +1,6 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
 
 import MainLayout from '../components/main_layout.jsx';
 
@@ -16,7 +18,7 @@ export const depsMapper = (context, actions) => ({
 
 const MainLayoutContainer = composeAll(
   composeWithTracker(composer),
-  useDeps(depsMapper)
+  useDeps(depsMapper),
 )(MainLayout);
 
 export default MainLayoutContainer;

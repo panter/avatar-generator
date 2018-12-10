@@ -9,4 +9,3 @@ export default new SimpleSchema({
     type: String,
   },
 });
-

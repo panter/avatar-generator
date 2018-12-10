@@ -1,4 +1,6 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
 import { withTranslatedSchema } from '@panter/manul-i18n';
 import UsersEdit from '../components/users_edit.jsx';
 
@@ -27,5 +29,5 @@ export const depsMapper = (context, actions) => ({
 export default composeAll(
   composeWithTracker(adminComposer),
   composeWithTracker(userComposer),
-  useDeps(depsMapper)
+  useDeps(depsMapper),
 )(UsersEdit);

@@ -1,4 +1,4 @@
-import { composeWithTracker } from 'mantra-core';
+import { composeWithTracker } from '/imports/komposer';
 
 export default (rolesOnly, error) => composeWithTracker((props, onData) => {
   const { Meteor, Roles } = props.context();

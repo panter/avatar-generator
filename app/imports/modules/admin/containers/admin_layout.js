@@ -1,4 +1,6 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
 import AdminLayout from '../components/admin_layout.jsx';
 import MainLayout from '../../core/components/main_layout';
 import restrictToRoles from '/imports/modules/core/hocs/restrict_to_roles';
@@ -17,7 +19,6 @@ export default composeAll(
   composeWithTracker(composer),
   restrictToRoles('admin', () => (
     <MainLayout content={() => <NotAllowedMessage />} />
-    )
-  ),
-  useDeps(depsMapper)
+  )),
+  useDeps(depsMapper),
 )(AdminLayout);

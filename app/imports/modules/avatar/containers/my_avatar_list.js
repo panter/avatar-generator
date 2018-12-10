@@ -1,5 +1,7 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import MyAvatarList from '../components/my_avatar_list.jsx';
 
 export const composer = ({ context }, onData) => {
@@ -12,13 +14,6 @@ export const depsMapper = (context, actions) => ({
   context: () => context,
 });
 
-const MyAvatarListContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(MyAvatarList);
-
-setComposerStub(MyAvatarListContainer, ({ }) => ({
-
-}));
+const MyAvatarListContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(MyAvatarList);
 
 export default MyAvatarListContainer;

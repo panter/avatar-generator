@@ -42,7 +42,9 @@ const ModalActions = styled(ButtonGroup)`
 
 `;
 
-const Modal = ({ show, onHide, children, small, actions = [], testId }) => (
+const Modal = ({
+  show, onHide, children, small, actions = [], testId,
+}) => (
   <ReactModal
     aria-labelledby="modal-label"
     style={baseStyle}

@@ -4,7 +4,7 @@ import YAML from 'yamljs';
 import importIntoCollection from '@panter/manul-i18n/dist/import_into_collection';
 import { Translations } from '/imports/api/collections';
 
-/* global Assets*/
+/* global Assets */
 export default () => {
   Meteor.startup(() => {
     const localesToSeed = ['de'];

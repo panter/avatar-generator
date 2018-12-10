@@ -9,8 +9,8 @@ export default {
           if (!error) {
             manulRouter.go('home');
           }
-        }
-    ));
+        }),
+      );
     },
     logout({ Meteor, Alerts, manulRouter }) {
       Meteor.logout(Alerts.handleCallback('account.actions.logout', (error) => {

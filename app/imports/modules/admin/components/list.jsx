@@ -1,22 +1,12 @@
 import React from 'react';
 import flat from 'flat';
+import GriddleReact from 'griddle-react';
 
 const List = ({
-  resultsPerPage,
-  collectionName,
-  collection,
-  publications,
-  gotoEdit,
-  columns,
-  columnMetadata,
-  listTransformEntry,
-  filteredFields,
-  baseQuery,
-  sortBy,
-  MeteorGriddle,
+  resultsPerPage, collectionName, collection, publications, gotoEdit, columns, columnMetadata, listTransformEntry, filteredFields, baseQuery, sortBy,
 }) => (
   <div>
-    <MeteorGriddle
+    <GriddleReact
       transformResult={listTransformEntry || flat}
       columns={columns}
       columnMetadata={columnMetadata}
@@ -30,16 +20,8 @@ const List = ({
       showFilter
       baseQuery={baseQuery}
     />
-  </div>);
-
-List.propTypes = {
-
-};
-
-List.defaultProps = {
-  showActions: true,
-  resultsPerPage: 100,
-};
+  </div>
+);
 
 List.displayName = 'Admin.List';
 

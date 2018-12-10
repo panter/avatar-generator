@@ -7,7 +7,7 @@ const AdminHome = ({}) => (
   <ButtonGroup>
     <LinkButton routeName="admin.translations.list">
         Translations
-      </LinkButton>
+    </LinkButton>
   </ButtonGroup>
 );
 

@@ -1,4 +1,6 @@
-import { createApp } from 'mantra-core';
+import { createApp } from '@storybook/mantra-core';
+import { alertsModule } from '@panter/manul-alerts';
+import { adminModule as manulAdminModule } from '@panter/manul-admin';
 import initContext from './configs/context';
 
 // modules
@@ -7,8 +9,6 @@ import coreModule from '../imports/modules/core';
 import adminModule from '../imports/modules/admin';
 import registrationModule from '../imports/modules/registration';
 import accountModule from '../imports/modules/account';
-import { alertsModule } from '@panter/manul-alerts';
-import { adminModule as manulAdminModule } from '@panter/manul-admin';
 // init context
 const context = initContext();
 

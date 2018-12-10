@@ -1,9 +1,14 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
+
 import AvatarNameInput from '../components/avatar_name_input.jsx';
 
 export const composer = ({ context, avatarId }, onData) => {
-  const { Meteor, Collections: { Avatars } } = context();
+  const {
+    Meteor,
+    Collections: { Avatars },
+  } = context();
   Meteor.subscribe('avatars.one.byId', avatarId);
   const avatar = Avatars.findOne(avatarId);
   if (avatar) {
@@ -16,13 +21,6 @@ export const depsMapper = (context, actions) => ({
   setAvatarName: actions.avatars.setAvatarName,
 });
 
-const AvatarNameInputContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(AvatarNameInput);
-
-setComposerStub(AvatarNameInputContainer, ({ }) => ({
-
-}));
+const AvatarNameInputContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(AvatarNameInput);
 
 export default AvatarNameInputContainer;

@@ -1,7 +1,8 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-import { setComposerStub } from 'react-komposer';
-import Login from '../components/login.jsx';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
 
+import Login from '../components/login.jsx';
 
 export const composer = ({ context }, onData) => {
   const { Meteor, Schemas } = context();
@@ -15,13 +16,6 @@ export const depsMapper = (context, actions) => ({
   context: () => context,
 });
 
-const LoginContainer = composeAll(
-  composeWithTracker(composer),
-  useDeps(depsMapper)
-)(Login);
-
-setComposerStub(LoginContainer, ({ }) => ({
-
-}));
+const LoginContainer = composeAll(composeWithTracker(composer), useDeps(depsMapper))(Login);
 
 export default LoginContainer;

@@ -1,9 +1,13 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
 import DocumentPreview from '../components/document_preview.jsx';
 
 const defaultPreview = doc => doc._id;
 
-export const composer = ({ context, docId, doc, docLoaded, getPreviewLabel = defaultPreview }, onData) => {
+export const composer = ({
+  context, docId, doc, docLoaded, getPreviewLabel = defaultPreview,
+}, onData) => {
   if (doc && docLoaded) {
     const label = getPreviewLabel(doc);
     onData(null, { label });
@@ -19,5 +23,5 @@ export const depsMapper = (context, actions) => ({
 
 export default composeAll(
   composeWithTracker(composer),
-  useDeps(depsMapper)
+  useDeps(depsMapper),
 )(DocumentPreview);

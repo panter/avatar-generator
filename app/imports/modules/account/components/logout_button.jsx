@@ -10,7 +10,9 @@ const LogoutButtonBase = styled(Button)`
 
 const LogoutButton = ({ logout, userId }) => (
   <LogoutButtonBase onClick={logout}>
-    Logout <UsernameLabel userId={userId} />
+    Logout
+    {' '}
+    <UsernameLabel userId={userId} />
   </LogoutButtonBase>
 );
 

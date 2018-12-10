@@ -1,6 +1,6 @@
 import SimpleSchema from 'simpl-schema';
-import UserProfileSchema from '../schemas/user_profile';
 import _ from 'lodash';
+import UserProfileSchema from './user_profile';
 
 export default new SimpleSchema({
   _id: {
@@ -19,10 +19,10 @@ export default new SimpleSchema({
     autoValue() {
       if (this.isInsert) {
         return new Date();
-      } else if (this.isUpsert) {
+      } if (this.isUpsert) {
         return { $setOnInsert: new Date() };
       }
-      _.invoke(this, 'unset');  // Prevent user from supplying their own value
+      _.invoke(this, 'unset'); // Prevent user from supplying their own value
       return undefined;
     },
   },

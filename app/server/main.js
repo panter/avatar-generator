@@ -21,7 +21,7 @@ methods();
 importI18nSeed();
 initAdminServer({ Meteor, ValidatedMethod, Counts }, adminConfig);
 
-/* global ServiceConfiguration*/
+/* global ServiceConfiguration */
 ServiceConfiguration.configurations.upsert(
   { service: 'google' },
   {
@@ -29,5 +29,5 @@ ServiceConfiguration.configurations.upsert(
       clientId: '241654798799-7fhlfb90pvts2m71al3lhbtphv6en5ha.apps.googleusercontent.com',
       secret: 'Evo79FdcFKG72Szzhzn-48mq',
     },
-  }
+  },
 );

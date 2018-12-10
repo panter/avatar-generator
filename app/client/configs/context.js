@@ -20,7 +20,6 @@ import TranslationStore from '@panter/manul-i18n/dist/stores/collection';
 
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
-import { MeteorGriddle } from 'meteor/panter:meteor-griddle';
 
 import createAdminContext from './create_admin_context';
 
@@ -34,6 +33,7 @@ export default function () {
   const i18n = new I18n({
     supportedLocales: ['de', 'en', 'fr', 'it'],
     defaultLocale: 'de',
+    stateDict: new ReactiveDict(),
     translationStore: new TranslationStore({
       Meteor,
       ReactiveVar,
@@ -42,9 +42,7 @@ export default function () {
     }),
   });
 
-  const manulRouter = new ManulRouter(
-    { FlowRouter, Meteor, i18n },
-  );
+  const manulRouter = new ManulRouter({ FlowRouter, Meteor, i18n });
 
   i18n.onChangeLocale(locale => moment.locale(locale));
 
@@ -63,7 +61,6 @@ export default function () {
     Config: Collections.Config,
     Roles,
     Accounts,
-    MeteorGriddle,
   };
   context.adminContext = createAdminContext(context);
   return context;

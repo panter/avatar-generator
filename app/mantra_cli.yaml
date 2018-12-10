@@ -9,7 +9,7 @@ templates:
     text: |
       import React from 'react';
       import { storiesOf, action } from '@kadira/storybook';
-      import { setComposerStub } from 'react-komposer';
+
       import <%= componentName %> from '../<%= componentFileName %>';
 
 
@@ -23,30 +23,27 @@ templates:
         })
   - name: 'container'
     text: |
-        import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
-        import { setComposerStub } from 'react-komposer';
-        import <%= componentName %> from '../components/<%= componentFileName %>.jsx';
+      import { useDeps, composeAll, composeWithTracker, compose } from '/imports/komposer';
 
-        export const composer = ({ context }, onData) => {
-          const { Meteor, Collections } = context();
+      import <%= componentName %> from '../components/<%= componentFileName %>.jsx';
 
-          onData(null, {});
-        };
+      export const composer = ({ context }, onData) => {
+        const { Meteor, Collections } = context();
 
-        export const depsMapper = (context, actions) => ({
-          context: () => context,
-        });
+        onData(null, {});
+      };
 
-        const <%= componentName %>Container = composeAll(
-          composeWithTracker(composer),
-          useDeps(depsMapper)
-        )(<%= componentName %>);
+      export const depsMapper = (context, actions) => ({
+        context: () => context,
+      });
 
-        setComposerStub(<%= componentName %>Container, ({ }) => ({
+      const <%= componentName %>Container = composeAll(
+        composeWithTracker(composer),
+        useDeps(depsMapper)
+      )(<%= componentName %>);
 
-        }));
 
-        export default <%= componentName %>Container;
+      export default <%= componentName %>Container;
 
   - name: 'component'
     text: |
@@ -57,7 +54,7 @@ templates:
       const <%= componentName %>Base = styled.div`
         padding: 10px;
       `
-      
+
       const <%= componentName %> = ({}) => (
         <<%= componentName %>Base>
           <%= componentName %>

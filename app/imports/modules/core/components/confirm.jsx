@@ -20,13 +20,13 @@ const Confirm = ({
     actions.push(
       <Button key="cancel" onClick={onCancel}>
         <T>{cancelButtonLabel}</T>
-      </Button>
+      </Button>,
     );
   }
   actions.push(
     <Button key="ok" primary onClick={onConfirm}>
       <T>{confirmButtonLabel}</T>
-    </Button>
+    </Button>,
   );
   return (
     <Modal

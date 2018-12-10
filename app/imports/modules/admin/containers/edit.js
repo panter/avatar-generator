@@ -1,8 +1,12 @@
-import { useDeps, composeAll, composeWithTracker, compose } from 'mantra-core';
+import {
+  useDeps, composeAll, composeWithTracker, compose,
+} from '/imports/komposer';
 import { withTranslatedSchema } from '@panter/manul-i18n';
 import Edit from '../components/edit.jsx';
 
-export const composer = ({ context, params: { _id }, docLoaded, doc, update, create, allowInsertWithId }, onData) => {
+export const composer = ({
+  context, params: { _id }, docLoaded, doc, update, create, allowInsertWithId,
+}, onData) => {
   if (docLoaded) {
     if (!doc && allowInsertWithId) {
       onData(null, { upsert: create, doc: { _id } });
@@ -20,5 +24,5 @@ export const depsMapper = (context, actions) => ({
 export default composeAll(
   compose(composer),
   withTranslatedSchema(({ collectionName }) => ({ schema: collectionName })),
-  useDeps(depsMapper)
+  useDeps(depsMapper),
 )(Edit);

@@ -18,9 +18,9 @@ function schemaMixin(methodOptions) {
 export default class BaseMethod extends ValidatedMethod {
   constructor(methodDefinition) {
     const mixins = (
-      Array.isArray(methodDefinition.mixins) ?
-      methodDefinition.mixins.concat(PermissionsMixin).concat(schemaMixin) :
-      [PermissionsMixin, schemaMixin]
+      Array.isArray(methodDefinition.mixins)
+        ? methodDefinition.mixins.concat(PermissionsMixin).concat(schemaMixin)
+        : [PermissionsMixin, schemaMixin]
     );
     super({
       ...methodDefinition,

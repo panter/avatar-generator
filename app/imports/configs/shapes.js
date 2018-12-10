@@ -1,5 +1,5 @@
 const unit = 100;
-/* eslint camelcase: 0*/
+/* eslint camelcase: 0 */
 const u_2 = unit / 2;
 const u_3 = unit / 3;
 const u_sqrt3 = unit * Math.sqrt(3);

@@ -29,16 +29,19 @@ const AvatarListItemLink = styled(LinkButton)`
 const AvatarList = ({ avatars = [] }) => (
   <AvatarListBase>
     {avatars.map(
-      avatar => <AvatarListItem key={avatar._id}>
-        <AvatarListItemLink
-          group={avatar.group}
-          routeName="avatar" params={{ avatarId: avatar._id }}
-        >
-          <AvatarListSvg avatarId={avatar._id} />
-          {avatar.name || avatar._id}
-          <UsernameLabel group={avatar.group} userId={avatar.userId} />
-        </AvatarListItemLink>
-      </AvatarListItem>
+      avatar => (
+        <AvatarListItem key={avatar._id}>
+          <AvatarListItemLink
+            group={avatar.group}
+            routeName="avatar"
+            params={{ avatarId: avatar._id }}
+          >
+            <AvatarListSvg avatarId={avatar._id} />
+            {avatar.name || avatar._id}
+            <UsernameLabel group={avatar.group} userId={avatar.userId} />
+          </AvatarListItemLink>
+        </AvatarListItem>
+      ),
     )}
   </AvatarListBase>
 );

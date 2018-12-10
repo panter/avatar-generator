@@ -3,7 +3,9 @@ import { T } from '@panter/manul-i18n';
 import styled from 'styled-components';
 
 
-const C = ({ href, className, style, children, label, onClick, type, testId, external }) => {
+const C = ({
+  href, className, style, children, label, onClick, type, testId, external,
+}) => {
   const Tag = href ? 'a' : 'button';
   return (
     <Tag
