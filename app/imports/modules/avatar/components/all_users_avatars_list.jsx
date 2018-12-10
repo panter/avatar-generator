@@ -4,12 +4,8 @@ import styled, { css } from 'styled-components';
 
 const AllUsersAvatarsListBase = styled.div`
   padding: 10px;
-`
+`;
 
-const AllUsersAvatarsList = ({}) => (
-  <AllUsersAvatarsListBase>
-    AllUsersAvatarsList
-  </AllUsersAvatarsListBase>
-);
+const AllUsersAvatarsList = ({}) => <AllUsersAvatarsListBase>AllUsersAvatarsList</AllUsersAvatarsListBase>;
 
 export default AllUsersAvatarsList;

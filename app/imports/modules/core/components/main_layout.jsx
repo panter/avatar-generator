@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 
@@ -33,32 +34,25 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-
-const Layout = ({
-  loggedIn,
-  loggingIn,
-  propsLoggedIn = {},
-  propsNotLoggedIn = {},
-  ...propsDefault
-}) => {
+const Layout = ({ loggedIn, loggingIn, propsLoggedIn = {}, propsNotLoggedIn = {}, ...propsDefault }) => {
   const propsLoginState = loggedIn ? propsLoggedIn : propsNotLoggedIn;
   const props = {
     ...propsDefault,
     ...propsLoginState,
   };
-  const {
-    showTitle = null,
-    content = () => null,
-  } = props;
+  const { showTitle = null, content = () => null } = props;
   return (
     <ThemeProvider theme={theme}>
       <LayoutBase>
         <ContentWrapper>
-          {showTitle && <div>
-            <Title>Panter's lässigä Avatar Editor ™</Title>
-            <p style={{ textAlign: 'center' }}>Powered by <img style={{ height: 40, verticalAlign: 'middle' }} src="https://images-na.ssl-images-amazon.com/images/I/41dvudsQOUL.jpg" /></p>
-          </div>
-          }
+          {showTitle && (
+            <div>
+              <Title>Panter's lässigä Avatar Editor ™</Title>
+              <p style={{ textAlign: 'center' }}>
+                Powered by <img role="presentation" style={{ height: 40, verticalAlign: 'middle' }} src="https://images-na.ssl-images-amazon.com/images/I/41dvudsQOUL.jpg" />
+              </p>
+            </div>
+          )}
           {content()}
         </ContentWrapper>
         <AlertsStack />

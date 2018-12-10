@@ -1,6 +1,4 @@
 import Avatars from './avatars';
 
-export {
-  Avatars,
-
-};
+// eslint-disable-next-line import/prefer-default-export
+export { Avatars };

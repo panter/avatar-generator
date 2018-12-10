@@ -12,6 +12,7 @@ const GroupSelect = ({ avatarId, selectGroup, group }) => (
     <option value="gruppe2">🥈 Gruppe2</option>
     <option value="atlas">🌍 Atlas</option>
     <option value="lokomotive">🚂 Lokomotive</option>
+    <option value="panter">Panter</option>
   </GroupSelectBase>
 );
 
